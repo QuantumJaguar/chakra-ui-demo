@@ -11,10 +11,10 @@ app.use(
 );
 const PORT = 3000;
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.send("Express on Vercel");
 });
-app.get("/tasks", (req, res) => {
+app.get("/api/tasks", (req, res) => {
   fs.readFile("db.json", "utf8", (err, data) => {
     if (err) {
       console.error(err);
