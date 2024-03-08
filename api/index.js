@@ -2,8 +2,12 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const cors = require("cors");
-app.use(cors());
-
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+  })
+);
 const PORT = 3000;
 
 app.get("/", (req, res) => {

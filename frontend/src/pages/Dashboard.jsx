@@ -57,7 +57,7 @@ export default function Dashboard() {
 
 export const tasksLoader = async () => {
   try {
-    const res = await fetch('http://localhost:3000/tasks');
+    const res = await fetch(import.meta.env.VITE_API_BASE_URL/tasks);
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
