@@ -18,7 +18,9 @@ app.get("/api/", (req, res) => {
 // Define a route to serve JSON data from db.json
 
 app.get("/api/tasks", (req, res) => {
-  fs.readFile("db.json", "utf8", (err, data) => {
+  const dbFilePath = path.join(__dirname, "db.json");
+
+  fs.readFile(dbFilePath, "utf8", (err, data) => {
     if (err) {
       console.error("Error reading db.json:", err);
       return res.status(500).send("Internal Server Error");
