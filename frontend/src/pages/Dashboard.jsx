@@ -57,7 +57,7 @@ export default function Dashboard() {
 
 export const tasksLoader = async () => {
   try {
-    const res = await fetch('http://localhost:5173/tasks');
+    const res = await fetch('http://localhost:3000/tasks');
     if (!res.ok) {
       throw new Error('Failed to fetch data');
     }
