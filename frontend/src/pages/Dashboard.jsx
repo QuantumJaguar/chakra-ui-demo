@@ -17,7 +17,7 @@ import {
 import { useLoaderData } from "react-router-dom"
 
 export default function Dashboard() {
-  const {tasks} = useLoaderData()
+  const {tasks}= useLoaderData()
  
   return (
     <SimpleGrid spacing={10} minChildWidth={300}>
@@ -56,15 +56,8 @@ export default function Dashboard() {
 }
 
 export const tasksLoader = async () => {
-  try {
-    const res = await fetch(import.meta.env.VITE_API_BASE_URL +"/tasks");
-    if (!res.ok) {
-      throw new Error('Failed to fetch data');
-    }
-    return res.json();
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
+  const apiUrl = import.meta.env.VITE_API_BASE_URL + "/tasks";
+  const res = await fetch(apiUrl)
 
+  return res.json()
+}

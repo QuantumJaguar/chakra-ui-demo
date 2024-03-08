@@ -3,6 +3,7 @@ const app = express();
 const fs = require("fs");
 const cors = require("cors");
 
+// Apply CORS configuration for the entire application
 app.use(
   cors({
     credentials: true,
@@ -15,19 +16,16 @@ app.get("/api/", (req, res) => {
   res.send("Express on Vercel");
 });
 // Define a route to serve JSON data from db.json
-app.get("/api/tasks", (req, res) => {
+app.get("/api/tasks", cors(), (req, res) => {
   fs.readFile("db.json", "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading db.json:", err);
-      return res.status(500).send("Internal Server Error");
-    }
-
     try {
+      if (err) throw err;
+
       const jsonData = JSON.parse(data);
       res.setHeader("Content-Type", "application/json");
       res.send(jsonData);
-    } catch (parseError) {
-      console.error("Error parsing JSON:", parseError);
+    } catch (error) {
+      console.error("Error:", error);
       res.status(500).send("Internal Server Error");
     }
   });
