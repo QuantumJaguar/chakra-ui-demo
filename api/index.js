@@ -14,14 +14,22 @@ const PORT = 3000;
 app.get("/api/", (req, res) => {
   res.send("Express on Vercel");
 });
+// Define a route to serve JSON data from db.json
 app.get("/api/tasks", (req, res) => {
   fs.readFile("db.json", "utf8", (err, data) => {
     if (err) {
-      console.error(err);
-      res.status(500).send("Internal Server Error");
-      return;
+      console.error("Error reading db.json:", err);
+      return res.status(500).send("Internal Server Error");
     }
-    res.json(JSON.parse(data));
+
+    try {
+      const jsonData = JSON.parse(data);
+      res.setHeader("Content-Type", "application/json");
+      res.send(jsonData);
+    } catch (parseError) {
+      console.error("Error parsing JSON:", parseError);
+      res.status(500).send("Internal Server Error");
+    }
   });
 });
 
