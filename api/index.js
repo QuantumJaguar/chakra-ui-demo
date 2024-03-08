@@ -2,10 +2,11 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const cors = require("cors");
+
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL,
   })
 );
 const PORT = 3000;
