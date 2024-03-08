@@ -18,21 +18,23 @@ app.get("/api/", (req, res) => {
 // Define a route to serve JSON data from db.json
 
 app.get("/api/tasks", (req, res) => {
-  const dbFilePath = path.join(__dirname, "db.json");
+  // Set CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
-  fs.readFile(dbFilePath, "utf8", (err, data) => {
+  fs.readFile("db.json", "utf8", (err, data) => {
     if (err) {
-      console.error("Error reading db.json:", err);
-      return res.status(500).send("Internal Server Error");
+      console.error("Error reading db.json:", err.message);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
 
     try {
       const jsonData = JSON.parse(data);
       res.setHeader("Content-Type", "application/json");
-      res.send(jsonData);
+      res.json(jsonData);
     } catch (error) {
-      console.error("Error parsing JSON:", error);
-      res.status(500).send("Internal Server Error");
+      console.error("Error parsing JSON:", error.message);
+      res.status(500).json({ error: "JSON Parsing Error" });
     }
   });
 });
