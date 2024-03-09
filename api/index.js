@@ -1,27 +1,28 @@
-// server.js
 const express = require("express");
 const fs = require("fs").promises;
-const cors = require("cors");
-const path = require("path");
-
+const cors = require("cors"); // Import the cors middleware
 const app = express();
+const port = process.env.PORT || 3000;
 
+// Use cors middleware
 app.use(cors());
 
-app.get("/api/", (req, res) => {
-  res.send("Express on Vercel");
-});
-
-app.get("/api/tasks", cors(), async (req, res) => {
+// Define a route to serve JSON data from db.json
+app.get("/api/tasks", async (req, res) => {
   try {
-    const filePath = path.join(process.cwd(), "public/db.json");
-    const contents = await fs.readFile(filePath, "utf-8");
-    res.json(JSON.parse(contents));
+    // Read the content of db.json
+    const data = await fs.readFile("db.json", "utf-8");
+    const jsonData = JSON.parse(data);
+
+    // Send the JSON data as a response
+    res.json(jsonData);
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Internal Server Error");
+    console.error("Error reading db.json:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// Export the Express app as a function
-module.exports = app;
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
